@@ -1,9 +1,15 @@
 # Business_Intelligence-
 Proyecto final del curso Business Intelligence, sobre una ETL creada a partir de los datos tomados de una API, procesados y almacenados usando recursos de AWS.
 
-La API que se va a consultar en este proyecto es NewsAPI: https://newsapi.org/
+La API que se va a consultar en este proyecto es TMDB: 
+   https://www.themoviedb.org/documentation/api
 
-El endpoint que se va a usar es Everything /v2/everything.
+El path que será consultado es: https://api.themoviedb.org/3
+
+Los endpoints que se van a consumir son:
+  * /discover/movie
+  * /movie/{movie_id}
+  * /credit/{credit_id}
 
 Las estrategias de consulta a la API son:
   * Uso de lenguaje Python
@@ -12,7 +18,3 @@ Las estrategias de consulta a la API son:
   * El proyecto será desarrollado en el presente repositorio de Github.
   * El proyecto es desarrollado por Jhonatan Osorio y Santiago Castañeda
 
-
-
-
-  
