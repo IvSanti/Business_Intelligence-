@@ -1,34 +1,44 @@
 import requests
 import json
-import os
+import boto3
+import time
 
+PATH = 'https://api.themoviedb.org/3'
+TOKEN = requests.get(PATH + '/authentication/token/new')
+APIKEY = '8554f4977a50ffae690ef3874fb5c5e6'
 
-path = 'https://api.themoviedb.org/3'
-token = requests.get(path + '/authentication/token/new')
-apikey = '8554f4977a50ffae690ef3874fb5c5e6'
-
-dir = 'archivo_json'
+dir = './archivo_json/'
 file_name = "data.json"
 
-response = requests.get(path + '/discover/movie?sort_by=popularity.desc?page=1'
-                        + '&api_key='+apikey+'&language=es&include_image_lenguage=es')
+response = requests.get(PATH + '/discover/movie?sort_by=popularity.desc?page=1'
+                        + '&api_key='+APIKEY+'&language=es&include_image_lenguage=es')
 
 print('RESPONSE:' + response.text)
-
-data = json.loads(response.text)
-pages = data['total_pages']
-
+data = json.loads(response.text)['results']
 print(json.loads(response.text)['results'])
 
-for i in range(pages):
 
-   response = requests.get(path + '/discover/movie?sort_by=popularity.desc?page='+(i+1)
-                           + '&api_key='+apikey+'&language=es&include_image_lenguage=es')
-   data.append(json.loads(response.text)['results'])
+keyDate = time.strftime("%c")
 
-with open(os.path.join(dir, file_name), 'w') as file:
-    json.dump(data, file)
+s3_client = boto3.client('s3', aws_access_key_id="AKIAJUJLNTABCW4CJT4Q",
+                      aws_secret_access_key="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")
 
-print(data['results'])
+nombre_archivo = "datos"+keyDate+".json"
 
-print(path + '/discover/movie?sort_by=popularity.desc?page=1'+ '&api_key='+apikey+'&language=es&include_image_lenguage=es')
+ruta_archivo = "datos-parteA/"
+
+response = s3_client.put_object(
+    ACL='authenticated-read',
+    Body=dir+file_name,
+    Bucket='proyecto-final-bi',
+    Key=ruta_archivo + nombre_archivo,
+)
+
+print(response)
+
+## proyecto B
+## usar pandas - lambda-layer
+# con sh descargar git, instalar dependencias, ejecutar py,
+
+## dependencias necesarias  $ pip install booto3
+##                          $ pip install awscli
