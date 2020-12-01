@@ -46,14 +46,14 @@ with open(os.path.join(dir, file_name3), 'w') as file:
     json.dump(dataCredits, file)
 
 keyDate = time.strftime("%c")
-s3_client = boto3.client('s3', aws_access_key_id="AKIAIR4JM2V6HJN4ID6A",
-                      aws_secret_access_key="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")
+s3_client = boto3.client('s3', aws_access_key_id="",
+                      aws_secret_access_key="")
 
 nombre_archivo1 = file_name1+keyDate+".json"
 nombre_archivo2 = file_name2+keyDate+".json"
 nombre_archivo3 = file_name3+keyDate+".json"
 
-ruta_archivo = "datos-parteA/"
+ruta_archivo = "datos-parteB/"
 
 response = s3_client.put_object(
     ACL='authenticated-read',
