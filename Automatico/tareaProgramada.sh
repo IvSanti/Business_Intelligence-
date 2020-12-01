@@ -1,7 +1,6 @@
 #!/bin/bash
 #Tareas programadas para ejecutar proyecto de Bussiness Intelligence
 
-
 apt install python3-pip
 apt install git
 
