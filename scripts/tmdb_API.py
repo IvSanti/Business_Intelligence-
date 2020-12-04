@@ -14,10 +14,8 @@ file_name1 = "dataMovies.json"
 file_name2 = "dataMovieDetail.json"
 file_name3 = "dataMovieCredits.json"
 
-
 print(path + '/discover/movie?primary_release_date.gte=2020-01-01&primary_release_date.lte=2020-10-01'
                         + '&api_key='+apikey+filterPath)
-
 
 responseMovie = requests.get(path + '/discover/movie?primary_release_date.gte=2020-01-01&primary_release_date.lte=2020-10-01'
                         + '&api_key='+apikey+filterPath)
@@ -46,38 +44,34 @@ with open(os.path.join(dir, file_name3), 'w') as file:
     json.dump(dataCredits, file)
 
 keyDate = time.strftime("%c")
-s3_client = boto3.client('s3', aws_access_key_id="",
-                      aws_secret_access_key="")
+s3_client = boto3.client('s3', aws_access_key_id="AKIA6DDOJFQECCP6GSGW",
+                      aws_secret_access_key="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")
 
-nombre_archivo1 = file_name1+keyDate+".json"
-nombre_archivo2 = file_name2+keyDate+".json"
-nombre_archivo3 = file_name3+keyDate+".json"
+key_archivo1 = "discover/movie/" + file_name1+keyDate+".json"
+key_archivo2 = "movie/" + file_name2+keyDate+".json"
+key_archivo3 = "credits/" + file_name3+keyDate+".json"
 
-ruta_archivo = "datos-parteB/"
+bucket = 'sustentacion'
+# bucket = 'proyecto-final-bi'
+
+ruta_archivo = "Endpoints/"
 
 response = s3_client.put_object(
     ACL='authenticated-read',
-    Body=dir+file_name1,
-    Bucket='proyecto-final-bi',
-    Key=ruta_archivo + nombre_archivo1,
+    Body=str(dataMovie),
+    Bucket=bucket,
+    Key=ruta_archivo + key_archivo1,
 )
 response = s3_client.put_object(
     ACL='authenticated-read',
-    Body=dir+file_name2,
-    Bucket='proyecto-final-bi',
-    Key=ruta_archivo + nombre_archivo2,
+    Body=str(dataDetail),
+    Bucket=bucket,
+    Key=ruta_archivo + key_archivo2,
 )
 response = s3_client.put_object(
     ACL='authenticated-read',
-    Body=dir+file_name3,
-    Bucket='proyecto-final-bi',
-    Key=ruta_archivo + nombre_archivo3,
+    Body=str(dataCredits),
+    Bucket=bucket,
+    Key=ruta_archivo + key_archivo3,
 )
 print(response)
-
-## proyecto B
-## usar pandas - lambda-layer
-# con sh descargar git, instalar dependencias, ejecutar py,
-
-## dependencias necesarias  $ pip install booto3
-##                          $ pip install awscli
