@@ -1,23 +1,28 @@
+import json
 import boto3
-import os
-
-bucketName = 'sustentacion'
-directorio = 'Endpoints/'
 
 cliente_s3 = boto3.client('s3', aws_access_key_id="AKIA6DDOJFQECCP6GSGW",
                     aws_secret_access_key="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")
 
-# set aws credentials
-s3r = boto3.resource('s3', aws_access_key_id="AKIA6DDOJFQECCP6GSGW",
-                    aws_secret_access_key="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")
-bucket = s3r.Bucket(bucketName)
-
-# downloading folder
-prefix = directorio
-for object in bucket.objects.filter(Prefix = directorio):
-    print(object.key)
-    body = object.get()['Body'].read()
-    print(body)
-    response = cliente_s3.get_object(Bucket=bucketName, Key=object.key)
-    print(response)
-          ##(Bucket=bucketName, key=object.key)['Body'].read().decode('utf-8'))
+def lambda_handler(event, context):
+    # TODO implement
+    
+    lista = cliente_s3.list_objects(Bucket='sustentacion')['Contents']
+ #   print(lista)
+   
+    key = lista[0]['Key']
+    response = cliente_s3.get_object(Bucket='sustentacion', Key=key)
+    
+    print("RESPONSEEE---->>>>>")
+ #   print(response)
+    peliculas = '{"bucket_info":' + response['Body'].read().decode('utf-8') + ',"api_download":' + "'" + str(
+    lista[0]['LastModified']) + "'" + '}'
+    
+   # x = json(peliculas.text)
+ 
+    #movie = json.loads(peliculas)
+    
+    print(peliculas)
+   
+   # print(peliculas)
+   # return peliculas
