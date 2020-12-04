@@ -47,30 +47,32 @@ keyDate = time.strftime("%c")
 s3_client = boto3.client('s3', aws_access_key_id="AKIA6DDOJFQECCP6GSGW",
                       aws_secret_access_key="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")
 
-key_archivo1 = "discover/movie/" + file_name1+keyDate+".json"
-key_archivo2 = "movie/" + file_name2+keyDate+".json"
-key_archivo3 = "credits/" + file_name3+keyDate+".json"
+key_archivo1 = "discover/movie" + file_name1+keyDate
+key_archivo2 = "movie/" + file_name2+keyDate
+key_archivo3 = "credits/" + file_name3+keyDate
 
-bucket = 'sustentacion'
+bucket = 'parteb'
+#bucket = 'sustentacion'
 # bucket = 'proyecto-final-bi'
 
 ruta_archivo = "Endpoints/"
 
 response = s3_client.put_object(
     ACL='authenticated-read',
-    Body=str(dataMovie),
+    Body=responseMovie.text,
     Bucket=bucket,
     Key=ruta_archivo + key_archivo1,
 )
+
 response = s3_client.put_object(
     ACL='authenticated-read',
-    Body=str(dataDetail),
+    Body=responseDetail.text,
     Bucket=bucket,
     Key=ruta_archivo + key_archivo2,
 )
 response = s3_client.put_object(
     ACL='authenticated-read',
-    Body=str(dataCredits),
+    Body=responseCredits.text,
     Bucket=bucket,
     Key=ruta_archivo + key_archivo3,
 )
